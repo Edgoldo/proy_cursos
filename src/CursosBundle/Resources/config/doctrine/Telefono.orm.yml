@@ -1,0 +1,30 @@
+CursosBundle\Entity\Telefono:
+    type: entity
+    table: telefono
+    repositoryClass: CursosBundle\Repository\TelefonoRepository
+    indexes:
+        fk_telefono_persona:
+            columns:
+                - persona_id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        numero:
+            type: string
+            length: '40'
+    manyToOne:
+        persona:
+            targetEntity: Persona
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: telefono
+            joinColumns:
+                persona_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,39 @@
+CursosBundle\Entity\PersonaCurso:
+    type: entity
+    table: persona_curso
+    repositoryClass: CursosBundle\Repository\PersonaCursoRepository
+    indexes:
+        fk_persona_curso_persona:
+            columns:
+                - persona_id
+        fk_persona_curso_curso:
+            columns:
+                - curso_id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    manyToOne:
+        persona:
+            targetEntity: Persona
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: personaCurso
+            joinColumns:
+                persona_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        curso:
+            targetEntity: Curso
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: personaCurso
+            joinColumns:
+                curso_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

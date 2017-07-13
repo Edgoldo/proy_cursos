@@ -1,0 +1,34 @@
+CursosBundle\Entity\Persona:
+    type: entity
+    table: persona
+    repositoryClass: CursosBundle\Repository\PersonaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nombre:
+            type: string
+            length: '40'
+        apellido:
+            type: string
+            length: '40'
+        direccion:
+            type: string
+            length: 255
+    oneToMany:
+        usuario:
+            targetEntity: Usuario
+            cascade: ["persist"]
+            mappedBy: persona
+        telefono:
+            targetEntity: Telefono
+            cascade: ["persist"]
+            mappedBy: persona
+        personaCurso:
+            targetEntity: PersonaCurso
+            cascade: ["persist"]
+            mappedBy: persona
+    lifecycleCallbacks: {  }

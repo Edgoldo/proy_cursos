@@ -1,0 +1,27 @@
+CursosBundle\Entity\Curso:
+    type: entity
+    table: curso
+    repositoryClass: CursosBundle\Repository\CursoRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        titulo:
+            type: string
+            length: 255
+        descripcion:
+            type: string
+            length: 255
+        duracion:
+            type: integer
+        participantes:
+            type: integer
+    oneToMany:
+        personaCurso:
+            targetEntity: PersonaCurso
+            cascade: ["persist"]
+            mappedBy: curso
+    lifecycleCallbacks: {  }
