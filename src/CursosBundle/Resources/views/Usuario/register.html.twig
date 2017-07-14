@@ -1,0 +1,44 @@
+{% extends "CursosBundle::layout.html.twig" %}
+
+{% block content %}
+	{#
+	{{ dump(error) }}
+	{% if app.user != null %}
+		{{ dump(app.user) }}
+	{% endif %}
+	{% if is_granted('ROLE_USER') %}
+		<strong> Bienvenido usuario, solo puedes consultar!! </strong>
+	{% elseif is_granted('ROLE_ADMIN') %}
+		<strong> Bienvenido administrador, el sistema está a su servicio!! </strong>
+	{% else %}
+		<strong> Bienvenido visitante!! </strong>
+	{% endif %}
+	
+	<div class="col-lg-4">
+		<h3> Inicio de sesión </h3>
+		<hr/>
+		<form action="{{path("login_check")}}" method="post">
+			<label>Apodo:</label>
+			<input type="apodo" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+			<br/>
+			<label>Contraseña:</label>
+			<input type="password" id="password" name="_password" class="form-control" />
+			<br/>
+			<input type="submit" value="Enviar Registro" class="btn btn-success" />
+			<input type="hidden" name="_target_path" value="/login" />
+		</form>
+	</div>
+	#}
+	
+	<div class="col-lg-4">
+		<h3> Registro de Usuarios </h3>
+		<hr/>
+		{% for message in app.session.flashbag().get('status') %}
+			<div class="alert alert-success"> {{ message }} </div>
+		{% endfor %}
+		{{ form_start(form, {'action':'', 'method':'POST'}) }}
+		{{ form_end(form) }}
+	</div>
+
+	<div class="clearfix"></div>
+{% endblock %}

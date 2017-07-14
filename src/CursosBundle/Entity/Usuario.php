@@ -1,16 +1,22 @@
 <?php
 
 namespace CursosBundle\Entity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuario
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var int
      */
     private $id;
+
+    /**
+     * @var string
+     */
+    private $rol;
 
     /**
      * @var string
@@ -32,6 +38,29 @@ class Usuario
      */
     private $persona;
 
+    // Para la autenticación del usuario
+    public function getUsername()
+    {
+        return $this->apodo;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array($this->getRol());
+        #return array("ROLE_ADMIN");
+    }
+
+    public function eraseCredentials()
+    {
+        
+    }
+    // Fin de la autenticación
+
 
     /**
      * Get id
@@ -41,6 +70,30 @@ class Usuario
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set rol
+     *
+     * @param string $rol
+     *
+     * @return Usuario
+     */
+    public function setRol($rol)
+    {
+        $this->rol = $rol;
+
+        return $this;
+    }
+
+    /**
+     * Get rol
+     *
+     * @return string
+     */
+    public function getRol()
+    {
+        return $this->rol;
     }
 
     /**

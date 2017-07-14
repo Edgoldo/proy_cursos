@@ -19,16 +19,16 @@ class CursoType extends AbstractType
     {
         $builder
             ->add('titulo', TextType::class, ["label"=>"Titulo", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('descripcion', TextareaType::class, ["label"=>"Descripción", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('duracion', TextType::class, ["label"=>"Duración en Semanas", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('participantes', TextType::class, ["label"=>"Número de Participantes", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('Registrar Curso', SubmitType::class, ["attr"=>[
                 "class"=>"form-submit btn btn-success"

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UsuarioType extends AbstractType
 {
@@ -19,14 +20,17 @@ class UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('persona', EntityType::class, ["label"=>"Nombre y Apellido", "required"=>"required", "class" => "CursosBundle:Persona", "attr"=>[
+                "class"=>"form-control"
+            ]])
             ->add('apodo', TextType::class, ["label"=>"Apodo", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('correo', EmailType::class, ["label"=>"Dirección de correo", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('password', PasswordType::class, ["label"=>"Contraseña", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('Registrar Usuario', SubmitType::class, ["attr"=>[
                 "class"=>"form-submit btn btn-success"

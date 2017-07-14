@@ -42,6 +42,10 @@ class Persona
         $this->personaCurso = new ArrayCollection();
     }
 
+    public function __toString(){
+        return $this->nombre." ".$this->apellido;
+    }
+
     /**
      * Get id
      *

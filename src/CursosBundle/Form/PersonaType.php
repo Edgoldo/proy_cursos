@@ -19,13 +19,13 @@ class PersonaType extends AbstractType
     {
         $builder
             ->add('nombre', TextType::class, ["label"=>"Nombre", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('apellido', TextType::class, ["label"=>"Apellido", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('direccion', TextareaType::class, ["label"=>"Dirección", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('Registrarse', SubmitType::class, ["attr"=>[
                 "class"=>"form-submit btn btn-success"

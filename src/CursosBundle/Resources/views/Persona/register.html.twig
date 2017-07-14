@@ -1,0 +1,15 @@
+{% extends "CursosBundle::layout.html.twig" %}
+
+{% block content %}	
+	<div class="col-lg-4">
+		<h3> Registro de Personas </h3>
+		<hr/>
+		{% for message in app.session.flashbag().get('status') %}
+			<div class="alert alert-success"> {{ message }} </div>
+		{% endfor %}
+		{{ form_start(form, {'action':'', 'method':'POST'}) }}
+		{{ form_end(form) }}
+	</div>
+
+	<div class="clearfix"></div>
+{% endblock %}

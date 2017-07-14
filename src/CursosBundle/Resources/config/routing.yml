@@ -1,3 +1,21 @@
 cursos_homepage:
-    path:     /
-    defaults: { _controller: CursosBundle:Default:index }
+  path: /
+  defaults: { _controller: CursosBundle:Default:index }
+
+login:
+  path: /login
+  defaults: { _controller: CursosBundle:Usuario:login }
+
+login_check:
+  path: /login_check
+
+logout:
+  path: /logout
+
+usuario_register:
+  path: /usuario/register
+  defaults: { _controller: CursosBundle:Usuario:register }
+
+persona_register:
+  path: /persona/register
+  defaults: { _controller: CursosBundle:Persona:register }

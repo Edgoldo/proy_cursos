@@ -13,6 +13,9 @@ CursosBundle\Entity\Usuario:
             generator:
                 strategy: AUTO
     fields:
+        rol:
+            type: string
+            length: '20'
         apodo:
             type: string
             length: '40'

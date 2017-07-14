@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TelefonoType extends AbstractType
 {
@@ -17,8 +18,11 @@ class TelefonoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('persona', EntityType::class, ["class" => "CursosBundle:Persona" "attr"=>[
+                "class"=>"form-control"
+            ]])
             ->add('numero', TextType::class, ["label"=>"Número de Teléfono", "required"=>"required", "attr"=>[
-                "class"=>"form-apodo form-control"
+                "class"=>"form-control"
             ]])
             ->add('Registrar Telefono', SubmitType::class, ["attr"=>[
                 "class"=>"form-submit btn btn-success"

@@ -1,0 +1,16 @@
+CursosBundle\Entity\Usuario:
+  properties:
+    apodo:
+      - NotBlank: {message: "Debe introducir un apodo"}
+      - Length:
+          min: 4
+          minMessage: "El apodo debe ser de al menos 4 caracteres"
+    correo:
+      - Email:
+          message: "Introduzca un email válido"
+      - NotBlank: {message: "Debe introducir su correo electrónico"}
+    password:
+      - NotBlank: {message: "Debe introducir una contraseña"}
+      - Length:
+          min: 4
+          minMessage: "La contraseña debe ser de al menos 4 caracteres"
