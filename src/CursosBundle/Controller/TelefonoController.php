@@ -17,16 +17,6 @@ class TelefonoController extends Controller
         $this->session = new Session();
     }
 
-    public function indexAction(){
-        $em = $this->getDoctrine()->getEntityManager();
-        $telefono_bd = $em->getRepository("CursosBundle:Telefono");
-        $telefonos = $telefono_bd->findAll();
-
-        return $this->render('CursosBundle:Telefono:index.html.twig', [
-            "telefonos" => $telefonos
-        ]);
-    }
-
     public function registerAction(Request $request){
         $telefono = new Telefono();
         $form = $this->createForm(TelefonoType::class, $telefono);
@@ -58,7 +48,7 @@ class TelefonoController extends Controller
         }else
             $status = "Los datos del registro no son válidos";
 
-        return $this->render('CursosBundle:Telefono:register.html.twig', [
+        return $this->render('CursosBundle:Telefono:telefono_register.html.twig', [
             "form" => $form->createView()
         ]);
     }

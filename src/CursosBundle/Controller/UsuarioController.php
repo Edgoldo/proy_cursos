@@ -17,16 +17,6 @@ class UsuarioController extends Controller
         $this->session = new Session();
     }
 
-    public function indexAction(){
-        $em = $this->getDoctrine()->getEntityManager();
-        $usuario_bd = $em->getRepository("CursosBundle:Usuario");
-        $usuarios = $usuario_bd->findAll();
-
-        return $this->render('CursosBundle:Usuario:index.html.twig', [
-            "usuarios" => $usuarios
-        ]);
-    }
-
     public function registerAction(Request $request){
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioType::class, $usuario);

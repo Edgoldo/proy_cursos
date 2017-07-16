@@ -23,7 +23,7 @@ class PersonaController extends Controller
 
     public function indexAction($id){
         $em = $this->getDoctrine()->getEntityManager();
-        $persona_bd = $em->getRepository("CursosBundle:persona");
+        $persona_bd = $em->getRepository("CursosBundle:Persona");
         $persona = $persona_bd->find($id);
 
         return $this->render('CursosBundle:Persona:persona_index.html.twig', [

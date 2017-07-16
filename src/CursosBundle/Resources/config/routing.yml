@@ -1,6 +1,6 @@
 cursos_homepage:
   path: /
-  defaults: { _controller: CursosBundle:Default:index }
+  defaults: { _controller: CursosBundle:Sistema:index }
 
 login:
   path: /login
