@@ -1,12 +1,9 @@
 {% extends "CursosBundle::layout.html.twig" %}
 
-{% block content %}
+{% block content %}	
 	<div class="col-lg-4">
-		<h3> Registro de Usuarios </h3>
+		<h3> Editar Cursos del Sistema</h3>
 		<hr/>
-		{% for message in app.session.flashbag().get('status') %}
-			<div class="alert alert-success"> {{ message }} </div>
-		{% endfor %}
 		{{ form_start(form, {'action':'', 'method':'POST'}) }}
 		{{ form_end(form) }}
 	</div>

@@ -18,7 +18,7 @@ class TelefonoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('persona', EntityType::class, ["class" => "CursosBundle:Persona" "attr"=>[
+            ->add('persona', EntityType::class, ["label"=>"Nombre y Apellido", "required"=>"required", "class" => "CursosBundle:Persona", "attr"=>[
                 "class"=>"form-control"
             ]])
             ->add('numero', TextType::class, ["label"=>"Número de Teléfono", "required"=>"required", "attr"=>[

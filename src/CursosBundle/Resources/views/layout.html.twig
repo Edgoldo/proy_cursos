@@ -28,8 +28,8 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             {% block menu %}
-                            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">Link</a></li>
+                                <li class="active"><a href="{{ path("curso_index") }}"><span class="glyphicon glyphicon-book"></span> Cursos Disponibles </a></li>
+                                <li><a href="#">Link</a></li>
                             {% endblock%}
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -43,12 +43,16 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="glyphicon glyphicon-cog"></span></a>
                                 <ul class="dropdown-menu">
                                     {% if app.user != null %}
-                                        <li><a href="{{path("logout")}}">Cerrar sesión</a></li>
+                                        <li><a href="{{path("curso_register")}}">Registrar Curso</a></li>
+                                        <li><a href="{{path("persona_index", {"id":app.user.id}) }}">Ver Perfil de Usuario</a></li>
+                                        <li><a href="#">Información</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="{{path("logout")}}">Cerrar Sesión</a></li>
                                     {% else %}
-                                        <li><a href="{{path("login")}}">Iniciar sesión</a></li>
+                                        <li><a href="{{path("login")}}">Iniciar Sesión</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Información</a></li>
                                     {% endif%}
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">Información</a></li>
                                 </ul>
                             </li>
                         </ul>

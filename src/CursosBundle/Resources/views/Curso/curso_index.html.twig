@@ -1,0 +1,42 @@
+{% extends "CursosBundle::layout.html.twig" %}
+
+{% block content %}
+	<h3> Cursos Disponibles</h3>
+	<hr/>
+	<div class="col-lg-6">
+		<a href="{{ path("curso_register") }}" class="btn btn-primary">Registrar Nuevos Cursos</a>
+		<hr/>
+		{% for message in app.session.flashbag().get('status') %}
+			<div class="alert alert-success"> {{ message }} </div>
+		{% endfor %}
+		<table class="table table-hover table-bordered">
+			<tr>
+				<th>Titulo</th>
+				<th>Descripcion</th>
+				<th>Semanas de Duración</th>
+				<th>Participantes</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			<tr>
+			{% for curso in cursos %}
+				<tr>
+					<td>{{ curso.titulo }}</td>
+					<td>{{ curso.descripcion }}</td>
+					<td>{{ curso.duracion }}</td>
+					<td>{{ curso.participantes }}</td>
+					<td>
+						<a href="{{ path("curso_edit", {"id":curso.id}) }}" class="glyphicon glyphicon-edit"></a>
+					</td>
+					<td>
+						{% if curso.personaCurso|length == 0 %}
+							<a href="{{ path("curso_delete", {"id":curso.id}) }}" class="glyphicon glyphicon-remove"></a>
+						{% else %}
+							El curso sigue activo
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="clearfix"></div>
+{% endblock %}

@@ -12,10 +12,42 @@ login_check:
 logout:
   path: /logout
 
-usuario_register:
-  path: /usuario/register
-  defaults: { _controller: CursosBundle:Usuario:register }
+persona_index:
+  path: /persona/perfil/{id}
+  defaults: { _controller: CursosBundle:Persona:index }
 
 persona_register:
   path: /persona/register
   defaults: { _controller: CursosBundle:Persona:register }
+
+persona_edit:
+  path: /persona/edit/{id}
+  defaults: { _controller: CursosBundle:Persona:edit }
+
+persona_delete:
+  path: /persona/delete/{id}
+  defaults: { _controller: CursosBundle:Persona:delete }
+
+usuario_register:
+  path: /usuario/register
+  defaults: { _controller: CursosBundle:Usuario:register }
+
+telefono_register:
+  path: /telefono/register
+  defaults: { _controller: CursosBundle:Telefono:register }
+
+curso_index:
+  path: /curso
+  defaults: { _controller: CursosBundle:Curso:index }
+
+curso_register:
+  path: /curso/register
+  defaults: { _controller: CursosBundle:Curso:register }
+
+curso_edit:
+  path: /curso/edit/{id}
+  defaults: { _controller: CursosBundle:Curso:edit }
+
+curso_delete:
+  path: /curso/delete/{id}
+  defaults: { _controller: CursosBundle:Curso:delete }
