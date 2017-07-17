@@ -2,7 +2,7 @@
 
 {% block content %}
 	{% if is_granted('ROLE_USER') %}
-		<strong> Bienvenido usuario, solo puedes consultar!! </strong>
+		<strong> Bienvenido usuario, puedes consultar y registrarte en los cursos!! </strong>
 	{% elseif is_granted('ROLE_ADMIN') %}
 		<strong> Bienvenido administrador, el sistema está a su servicio!! </strong>
 	{% else %}

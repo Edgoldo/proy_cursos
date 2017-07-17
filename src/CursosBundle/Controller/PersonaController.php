@@ -109,7 +109,24 @@ class PersonaController extends Controller
     public function deleteAction($id){
         $em = $this->getDoctrine()->getEntityManager();
         $persona_bd = $em->getRepository("CursosBundle:Persona");
+        $usuario_bd = $em->getRepository("CursosBundle:Usuario");
+        $telefono_bd = $em->getRepository("CursosBundle:Telefono");
         $persona = $persona_bd->find($id);
+        $usuarios = $usuario_bd->findBy(["persona"=>$persona]);
+        $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
+
+        foreach($usuarios as $usuario){
+            $em->remove($usuario);
+            $em->flush();
+        }
+
+        foreach($telefonos as $telefono){
+            $em->remove($telefono);
+            $em->flush();
+        }
+
+        $em->remove($persona);
+        $em->flush();
 
         return $this->redirectToRoute("logout");
     }

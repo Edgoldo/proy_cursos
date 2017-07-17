@@ -43,12 +43,15 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="glyphicon glyphicon-cog"></span></a>
                                 <ul class="dropdown-menu">
                                     {% if app.user != null %}
-                                        <li><a href="{{path("curso_register")}}">Registrar Curso</a></li>
-                                        <li><a href="{{path("persona_index", {"id":app.user.id}) }}">Ver Perfil de Usuario</a></li>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <li><a href="{{path("curso_register")}}">Registrar Curso</a></li>
+                                        {% endif %}
+                                        <li><a href="{{path("persona_index", {"id":app.user.persona.id}) }}">Ver Perfil de Usuario</a></li>
                                         <li><a href="#">Información</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="{{path("logout")}}">Cerrar Sesión</a></li>
                                     {% else %}
+                                        <li><a href="{{path("persona_register")}}">Registrarse en el Sistema</a></li>
                                         <li><a href="{{path("login")}}">Iniciar Sesión</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#">Información</a></li>

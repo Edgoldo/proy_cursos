@@ -4,8 +4,10 @@
 	<h3> Cursos Disponibles</h3>
 	<hr/>
 	<div class="col-lg-6">
-		<a href="{{ path("curso_register") }}" class="btn btn-primary">Registrar Nuevos Cursos</a>
-		<hr/>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path("curso_register") }}" class="btn btn-primary">Registrar Nuevos Cursos</a>
+			<hr/>
+		{% endif %}
 		{% for message in app.session.flashbag().get('status') %}
 			<div class="alert alert-success"> {{ message }} </div>
 		{% endfor %}
@@ -15,8 +17,10 @@
 				<th>Descripcion</th>
 				<th>Semanas de Duración</th>
 				<th>Participantes</th>
-				<th>Editar</th>
-				<th>Eliminar</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>Editar</th>
+					<th>Eliminar</th>
+				{% endif %}
 			<tr>
 			{% for curso in cursos %}
 				<tr>
@@ -24,16 +28,18 @@
 					<td>{{ curso.descripcion }}</td>
 					<td>{{ curso.duracion }}</td>
 					<td>{{ curso.participantes }}</td>
-					<td>
-						<a href="{{ path("curso_edit", {"id":curso.id}) }}" class="glyphicon glyphicon-edit"></a>
-					</td>
-					<td>
-						{% if curso.personaCurso|length == 0 %}
-							<a href="{{ path("curso_delete", {"id":curso.id}) }}" class="glyphicon glyphicon-remove"></a>
-						{% else %}
-							El curso sigue activo
-						{% endif %}
-					</td>
+					{% if is_granted('ROLE_ADMIN') %}
+						<td>
+							<a href="{{ path("curso_edit", {"id":curso.id}) }}" class="glyphicon glyphicon-edit"></a>
+						</td>
+						<td>
+							{% if curso.personaCurso|length == 0 %}
+								<a href="{{ path("curso_delete", {"id":curso.id}) }}" class="glyphicon glyphicon-remove"></a>
+							{% else %}
+								El curso sigue activo
+							{% endif %}
+						</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>
