@@ -49,7 +49,7 @@ class PersonaController extends Controller
         if($form->isSubmitted() and $form->isValid()){
             // Se genera un objeto para gestionar la base de datos sobre la variable $em
             $em = $this->getDoctrine()->getEntityManager();
-             // Encriptación de la contraseña ingresada por el usuario, usando el servicio creado
+            // Encriptación de la contraseña ingresada por el usuario, usando el servicio creado
             // en app.config.security.yml
             $factory = $this->get("security.encoder_factory");
             $encoder = $factory->getEncoder($usuario);
@@ -102,14 +102,19 @@ class PersonaController extends Controller
         $telefono = $telefono_bd->findOneByPersona($persona);
 
         $form = $this->createForm(PersonaType::class, $persona);
-        $form->add('usuario', UsuarioType::class, ["mapped"=>false]);
-        $form->add('telefono', TelefonoType::class, ["mapped"=>false]);
+        $form->add('usuario', UsuarioType::class, ["mapped"=>false, "data"=>$usuario]);
+        $form->add('telefono', TelefonoType::class, ["mapped"=>false, "data"=>$telefono]);
         // Se hace la petición y obtención de la información suministrada en el formulario
         $form->handleRequest($request);
 
         if($form->isSubmitted() and $form->isValid()){
             // Se genera un objeto para gestionar la base de datos sobre la variable $em
             $em = $this->getDoctrine()->getEntityManager();
+            // Encriptación de la contraseña ingresada por el usuario, usando el servicio creado
+            // en app.config.security.yml
+            $factory = $this->get("security.encoder_factory");
+            $encoder = $factory->getEncoder($usuario);
+            $password = $encoder->encodePassword($form->get("usuario")->get("password")->getData(), $usuario->getSalt());
                 
             // Obtención de los datos del formulario y almacenamiento en el objeto $persona
             $persona->setNombre($form->get("nombre")->getData());
@@ -159,18 +164,19 @@ class PersonaController extends Controller
         $usuarios = $usuario_bd->findBy(["persona"=>$persona]);
         $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
 
-        foreach($usuarios as $usuario){
+        foreach($usuarios as $usuario)
             $em->remove($usuario);
-            $em->flush();
-        }
 
-        foreach($telefonos as $telefono){
+        foreach($telefonos as $telefono)
             $em->remove($telefono);
-            $em->flush();
-        }
 
         $em->remove($persona);
-        $em->flush();
+        $flush = $em->flush();
+
+        if($flush == null)
+                $status = "Los datos han sido eliminados con éxito!";
+            else
+                $status = "Falló la eliminación del perfil, intente nuevamente";
 
         return $this->redirectToRoute("logout");
     }
