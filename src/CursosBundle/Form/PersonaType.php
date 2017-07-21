@@ -27,7 +27,7 @@ class PersonaType extends AbstractType
             ->add('direccion', TextareaType::class, ["label"=>"Dirección", "required"=>"required", "attr"=>[
                 "class"=>"form-control"
             ]])
-            ->add('Registrarse', SubmitType::class, ["attr"=>[
+            ->add('enviar', SubmitType::class, ["label"=>"Registrarse", "attr"=>[
                 "class"=>"form-submit btn btn-success"
             ]])
         ;

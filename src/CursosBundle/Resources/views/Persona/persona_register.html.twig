@@ -1,15 +1,27 @@
 {% extends "CursosBundle::layout.html.twig" %}
 
-{% block content %}	
-	<div class="col-lg-4">
-		<h3> Registro de Personas </h3>
-		<hr/>
-		{% for message in app.session.flashbag().get('status') %}
-			<div class="alert alert-success"> {{ message }} </div>
-		{% endfor %}
-		{{ form_start(form, {'action':'', 'method':'POST'}) }}
-		{{ form_end(form) }}
-	</div>
+{% block content %}
 
-	<div class="clearfix"></div>
+<div class="col-lg-4">
+	<h3> Registro de Persona, Usuario, Teléfono </h3>
+	<hr/>
+	{% for message in app.session.flashbag().get('status') %}
+		<div class="alert alert-success"> {{ message }} </div>
+	{% endfor %}
+	{{ form_start(form, {'action':'', 'method':'POST'}) }}
+		{{ form_row(form.nombre) }}
+		{{ form_row(form.apellido) }}
+		{{ form_row(form.direccion) }}
+		{{ form_row(form.telefono.numero) }}
+		{{ form_row(form.usuario.apodo) }}
+		{{ form_row(form.usuario.correo) }}
+		{{ form_row(form.usuario.password) }}
+		{{ form_row(form.enviar) }}
+		{{ form_widget(form.usuario.enviar, { 'attr': {'disabled': 'disabled', 'class': 'hidden'} }) }}
+		{{ form_widget(form.telefono.enviar, { 'attr': {'disabled': 'disabled', 'class': 'hidden'} }) }}
+	{{ form_end(form) }}
+</div>
+
+<div class="clearfix"></div>
+
 {% endblock %}

@@ -20,9 +20,9 @@ class UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('persona', EntityType::class, ["label"=>"Nombre y Apellido", "required"=>"required", "class" => "CursosBundle:Persona", "attr"=>[
+            /*->add('persona', EntityType::class, ["label"=>"Nombre y Apellido", "required"=>"required", "class" => "CursosBundle:Persona", "attr"=>[
                 "class"=>"form-control"
-            ]])
+            ]])*/
             ->add('apodo', TextType::class, ["label"=>"Apodo", "required"=>"required", "attr"=>[
                 "class"=>"form-control"
             ]])
@@ -32,7 +32,7 @@ class UsuarioType extends AbstractType
             ->add('password', PasswordType::class, ["label"=>"Contraseña", "required"=>"required", "attr"=>[
                 "class"=>"form-control"
             ]])
-            ->add('Registrar Usuario', SubmitType::class, ["attr"=>[
+            ->add('enviar', SubmitType::class, ["label"=>"Registrar Usuario", "attr"=>[
                 "class"=>"form-submit btn btn-success"
             ]])
         ;
