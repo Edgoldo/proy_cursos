@@ -41,6 +41,9 @@ class Curso
         $this->personaCurso = new ArrayCollection();
     }
 
+    public function __toString(){
+        return $this->titulo;
+    }
     /**
      * Get id
      *
