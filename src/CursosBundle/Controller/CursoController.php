@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use CursosBundle\Entity\Curso;
+use CursosBundle\Entity\PersonaCurso;
 use CursosBundle\Form\CursoType;
 
 class CursoController extends Controller
@@ -66,6 +67,52 @@ class CursoController extends Controller
         return $this->render('CursosBundle:Curso:curso_register.html.twig', [
             "form" => $form->createView()
         ]);
+    }
+
+    public function suscribeAction(Request $request, $id){
+        $personaCurso = new PersonaCurso();
+        // Genera la entidad que hace la gestión de consulta y almacenamiento en la bd
+        $em = $this->getDoctrine()->getEntityManager();
+        // Realiza la conexión con la tabla curso a través de la entidad Curso y la entidad de gestión
+        $curso_bd = $em->getRepository("CursosBundle:Curso");
+        // Busca en la tabla curso, el id del curso a editar
+        $curso = $curso_bd->find($id);
+        $persona = $this->getUser()->getPersona();
+        $personaCurso->setPersona($persona);
+        $personaCurso->setCurso($curso);
+        // Se almacenan los datos del objeto en la base de datos
+        $em->persist($personaCurso);
+        $flush = $em->flush();
+        
+        if($flush == null)
+            $status = "Bienvenido al curso ".(string)$curso->getTitulo();
+        else
+            $status = "Ocurrió un error al suscribirse, intente nuevamente";
+        // Almacena el mensaje de la sesión y en caso de que todo esté correcto
+        // genera y activa la sesión
+        $this->session->getFlashBag()->add("status", $status);
+        return $this->redirectToRoute("curso_index");
+    }
+
+    public function unsuscribeAction(Request $request, $id){
+        // Genera la entidad que hace la gestión de consulta y almacenamiento en la bd
+        $em = $this->getDoctrine()->getEntityManager();
+        // Realiza la conexión con la tabla curso a través de la entidad Curso y la entidad de gestión
+        $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
+        // Busca en la tabla curso, el id del curso
+        $curso = $personaCurso_bd->findOneById($id);
+        
+        $em->remove($curso);
+        $flush = $em->flush();
+        
+        if($flush == null)
+            $status = "Lamentamos que abandones el curso ".(string)$curso->getCurso()->getTitulo();
+        else
+            $status = "Ocurrió un error al eliminar la suscripción, intente nuevamente";
+        // Almacena el mensaje de la sesión y en caso de que todo esté correcto
+        // genera y activa la sesión
+        $this->session->getFlashBag()->add("status", $status);
+        return $this->redirectToRoute("persona_index", ["id" => $curso->getPersona()->getId()]);
     }
 
     public function editAction(Request $request, $id){
