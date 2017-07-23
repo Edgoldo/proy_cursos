@@ -6,12 +6,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use CursosBundle\Entity\Persona;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use CursosBundle\Form\PersonaType;
-use CursosBundle\Entity\Usuario;
 use CursosBundle\Form\UsuarioType;
-use CursosBundle\Entity\Telefono;
 use CursosBundle\Form\TelefonoType;
+use CursosBundle\Entity\Persona;
+use CursosBundle\Entity\Usuario;
+use CursosBundle\Entity\Telefono;
+use CursosBundle\Entity\Curso;
+use CursosBundle\Entity\PersonaCurso;
 
 class PersonaController extends Controller
 {
@@ -26,27 +29,34 @@ class PersonaController extends Controller
         $persona_bd = $em->getRepository("CursosBundle:Persona");
         $usuario_bd = $em->getRepository("CursosBundle:Usuario");
         $telefono_bd = $em->getRepository("CursosBundle:Telefono");
+        $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
         $persona = $persona_bd->find($id);
         $usuario = $usuario_bd->findOneByPersona($persona);
         $telefono = $telefono_bd->findOneByPersona($persona);
+        $personaCurso = $personaCurso_bd->findBy(["persona"=>$persona]);
 
         return $this->render('CursosBundle:Persona:persona_index.html.twig', [
             "persona" => $persona,
-            "usuario" => $usuario,  
-            "telefono" => $telefono
+            "usuario" => $usuario,
+            "telefono" => $telefono,
+            "cursos" => $personaCurso
         ]);
     }
 
     public function registerAction(Request $request){
         $persona = new Persona();
-        $usuario = new Usuario();
-        $telefono = new Telefono();
         $form = $this->createForm(PersonaType::class, $persona);
         $form->add('usuario', UsuarioType::class, ["mapped"=>false]);
         $form->add('telefono', TelefonoType::class, ["mapped"=>false]);
+        $form->add('personaCurso', EntityType::class, ["label"=>"Cursos Disponibles", "class"=>"CursosBundle:Curso", "mapped"=>false, "expanded"=>true, "multiple"=>true, "attr"=>["class"=>"radio"]]);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() and $form->isValid()){
+            // Creación de las diferentes entidades a registrar
+            $usuario = new Usuario();
+            $telefono = new Telefono();
+            
             // Se genera un objeto para gestionar la base de datos sobre la variable $em
             $em = $this->getDoctrine()->getEntityManager();
             // Encriptación de la contraseña ingresada por el usuario, usando el servicio creado
@@ -67,14 +77,23 @@ class PersonaController extends Controller
             // Obtención de los datos del formulario y almacenamiento en el objeto $telefono
             $telefono->setNumero($form->get("telefono")->get("numero")->getData());
             $telefono->setPersona($persona);
-            // Se almacenan los datos del objeto en la base de datos
+            // Se almacenan los datos de los objetos en la base de datos
             $em->persist($persona);
             $em->persist($usuario);
             $em->persist($telefono);
             $flush = $em->flush();
             
-            if($flush == null)
-                $status = "Los datos han sido registrados!";
+            if($flush == null){
+                $persona_bd = $em->getRepository("CursosBundle:Persona");
+                // Obtención del arreglo de cursos seleccionados en el formulario
+                $cursos = $form->get("personaCurso")->getData();
+                // Almacenamiento de la persona y los cursos en la tabla de relación entre Persona y Curso
+                $flush = $persona_bd->savePersonaCurso($persona, $cursos);
+                if($flush == null)
+                    $status = "Los datos han sido registrados!";
+                else
+                    $status = "Ocurrió un error al registrar un curso";
+            }
             else
                 $status = "No se realizó el registro. Verifique los datos ingresados";
             // Almacena el mensaje de la sesión y en caso de que todo esté correcto
@@ -160,15 +179,20 @@ class PersonaController extends Controller
         $persona_bd = $em->getRepository("CursosBundle:Persona");
         $usuario_bd = $em->getRepository("CursosBundle:Usuario");
         $telefono_bd = $em->getRepository("CursosBundle:Telefono");
+        $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
         $persona = $persona_bd->find($id);
         $usuarios = $usuario_bd->findBy(["persona"=>$persona]);
         $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
+        $personaCursos = $personaCurso_bd->findBy(["persona"=>$persona]);
 
         foreach($usuarios as $usuario)
             $em->remove($usuario);
 
         foreach($telefonos as $telefono)
             $em->remove($telefono);
+
+        foreach($personaCursos as $personaCurso)
+            $em->remove($personaCurso);
 
         $em->remove($persona);
         $flush = $em->flush();
