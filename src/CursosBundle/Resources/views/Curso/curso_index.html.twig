@@ -3,7 +3,7 @@
 {% block content %}
 	<h3> Cursos Disponibles</h3>
 	<hr/>
-	<div class="col-lg-6">
+	<div class="col-lg-10">
 		{% if is_granted('ROLE_ADMIN') %}
 			<a href="{{ path("curso_register") }}" class="btn btn-primary">Registrar Nuevos Cursos</a>
 			<hr/>
@@ -17,6 +17,7 @@
 				<th>Descripcion</th>
 				<th>Semanas de Duración</th>
 				<th>Participantes</th>
+				<th>Suscribirse</th>
 				{% if is_granted('ROLE_ADMIN') %}
 					<th>Editar</th>
 					<th>Eliminar</th>
@@ -28,15 +29,20 @@
 					<td>{{ curso.descripcion }}</td>
 					<td>{{ curso.duracion }}</td>
 					<td>{{ curso.participantes }}</td>
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+						<td align="center"><a href="{{ path("curso_suscribe", {"id":curso.id}) }}" class="glyphicon glyphicon-thumbs-up" style="font-size:25px;"></a></td>
+					{% else %}
+						<td align="center"><a href="{{ path("persona_register") }}" class="glyphicon glyphicon-thumbs-up" style="font-size:25px;"></a></td>
+					{% endif %}
 					{% if is_granted('ROLE_ADMIN') %}
-						<td>
-							<a href="{{ path("curso_edit", {"id":curso.id}) }}" class="glyphicon glyphicon-edit"></a>
+						<td align="center">
+							<a href="{{ path("curso_edit", {"id":curso.id}) }}" class="glyphicon glyphicon-edit" style="font-size:25px;"></a>
 						</td>
-						<td>
+						<td align="center">
 							{% if curso.personaCurso|length == 0 %}
-								<a href="{{ path("curso_delete", {"id":curso.id}) }}" class="glyphicon glyphicon-remove"></a>
+								<a href="{{ path("curso_delete", {"id":curso.id}) }}" class="glyphicon glyphicon-remove" style="font-size:25px;"></a>
 							{% else %}
-								El curso sigue activo
+								<a href="#" data-toggle="tooltip" class="btn" title="Indica que hay personas inscritas en el curso">Activo</a>
 							{% endif %}
 						</td>
 					{% endif %}
