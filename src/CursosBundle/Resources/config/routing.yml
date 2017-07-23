@@ -44,6 +44,14 @@ curso_register:
   path: /curso/register
   defaults: { _controller: CursosBundle:Curso:register }
 
+curso_suscribe:
+  path: /curso/suscribe/{id}
+  defaults: { _controller: CursosBundle:Curso:suscribe }
+
+curso_unsuscribe:
+  path: /curso/unsuscribe/{id}
+  defaults: { _controller: CursosBundle:Curso:unsuscribe }
+
 curso_edit:
   path: /curso/edit/{id}
   defaults: { _controller: CursosBundle:Curso:edit }
