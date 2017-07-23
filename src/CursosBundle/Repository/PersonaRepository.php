@@ -2,6 +2,8 @@
 
 namespace CursosBundle\Repository;
 
+use CursosBundle\Entity\PersonaCurso;
+
 /**
  * PersonaRepository
  *
@@ -10,4 +12,19 @@ namespace CursosBundle\Repository;
  */
 class PersonaRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function savePersonaCurso($persona=null, $cursos=null){
+		$em = $this->getEntityManager();
+		$curso_bd = $em->getRepository("CursosBundle:Curso");
+
+        foreach($cursos as $opc){
+            $personaCurso = new PersonaCurso();
+            $curso = $curso_bd->findOneBy(["titulo"=>(string)$opc]);
+            $personaCurso->setPersona($persona);
+            $personaCurso->setCurso($curso);
+            $em->persist($personaCurso);
+        }
+        $flush = $em->flush();
+            
+        return $flush;
+	}
 }
