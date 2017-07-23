@@ -16,6 +16,14 @@
 		{{ form_row(form.usuario.apodo) }}
 		{{ form_row(form.usuario.correo) }}
 		{{ form_row(form.usuario.password) }}
+		{{ form_label(form.personaCurso) }}
+		{% for opc in form.personaCurso %}
+			<div>
+				{{ form_widget(opc) }}
+				{{ form_label(opc) }}
+			</div>
+		{% endfor %}
+		{#{ form_row(form.personaCurso) }#}
 		{{ form_row(form.enviar) }}
 		{{ form_widget(form.usuario.enviar, { 'attr': {'disabled': 'disabled', 'class': 'hidden'} }) }}
 		{{ form_widget(form.telefono.enviar, { 'attr': {'disabled': 'disabled', 'class': 'hidden'} }) }}
