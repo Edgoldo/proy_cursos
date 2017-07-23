@@ -9,28 +9,41 @@
 		{% endfor %}
 		<table class="table table-hover table-bordered">
 			<tr>
-				<th>Nombre</th>
+				<th style="width: 10%">Nombre</th>
 				<td>{{ persona.nombre }}</td>
 			</tr>
 			<tr>
-				<th>Apellido</th>
+				<th style="width: 10%">Apellido</th>
 				<td>{{ persona.apellido }}</td>
 			</tr>
 			<tr>
-				<th>Dirección</th>
+				<th style="width: 10%">Dirección</th>
 				<td>{{ persona.direccion }}</td>
 			</tr>
 			<tr>
-				<th>Telefono</th>
+				<th style="width: 10%">Telefono</th>
 				<td>{{ telefono.numero }}</td>
 			</tr>
 			<tr>
-				<th>Apodo</th>
+				<th style="width: 10%">Apodo</th>
 				<td>{{ usuario.apodo }}</td>
 			</tr>
 			<tr>
-				<th>Correo</th>
+				<th style="width: 10%">Correo</th>
 				<td>{{ usuario.correo }}</td>
+			</tr>
+			<tr>
+				<th style="width: 10%">Cursos</th>
+				<td>
+					{% for curso in cursos %}
+						<table>
+							<tr><td>{{ curso.curso.titulo }}</td>
+							<td style="width: 5%">
+								<a href="{{ path("curso_unsuscribe", {"id":curso.id}) }}" data-toggle="tooltip" title="Abandonar curso" class="glyphicon glyphicon-thumbs-down" style="font-size:25px;"></a>
+							</td></tr>
+						</table>
+					{% endfor %}
+				</td>
 			</tr>
 			<tr>
 				<td>
