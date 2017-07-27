@@ -12,6 +12,9 @@
 	<div class="col-lg-4">
 		<h3> Inicio de sesión </h3>
 		<hr/>
+		{% for message in app.session.flashbag().get('status') %}
+			<div class="alert alert-success"> {{ message }} </div>
+		{% endfor %}
 		<form action="{{path("login_check")}}" method="post">
 			<label>Apodo:</label>
 			<input type="apodo" id="username" name="_username" value="{{ last_username }}" class="form-control" />
@@ -20,7 +23,7 @@
 			<input type="password" id="password" name="_password" class="form-control" />
 			<br/>
 			<input type="submit" value="Enviar Registro" class="btn btn-success" />
-			<input type="hidden" name="_target_path" value="/login" />
+			<input type="hidden" name="_target_path" value="/curso" />
 		</form>
 	</div>
 
