@@ -76,13 +76,9 @@ class UsuarioController extends Controller
         $error = $authenticationsUtils->getLastAuthenticationError();
         $lastUsername = $authenticationsUtils->getLastUsername();
 
-        $usuario = new Usuario();
-        $form = $this->createForm(UsuarioType::class, $usuario);
-
         return $this->render('CursosBundle:Usuario:login.html.twig', [
             "error" => $error,
-            "last_username" => $lastUsername,
-            "form" => $form->createView(),
+            "last_username" => $lastUsername
         ]);
     }
 }
