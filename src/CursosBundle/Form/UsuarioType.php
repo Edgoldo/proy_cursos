@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,9 +30,14 @@ class UsuarioType extends AbstractType
             ->add('correo', EmailType::class, ["label"=>"Dirección de correo", "required"=>"required", "attr"=>[
                 "class"=>"form-control"
             ]])
-            ->add('password', PasswordType::class, ["label"=>"Contraseña", "required"=>"required", "attr"=>[
-                "class"=>"form-control"
-            ]])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Las contraseñas deben coincidir.',
+                'options' => ['attr' => ['class' => 'form-control password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Contraseña'],
+                'second_options' => ['label' => 'Repita la Contraseña'],
+            ])
             ->add('enviar', SubmitType::class, ["label"=>"Registrar Usuario", "attr"=>[
                 "class"=>"form-submit btn btn-success"
             ]])
