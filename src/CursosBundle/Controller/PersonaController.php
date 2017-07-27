@@ -181,11 +181,11 @@ class PersonaController extends Controller
         $telefono_bd = $em->getRepository("CursosBundle:Telefono");
         $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
         $persona = $persona_bd->find($id);
-        $usuarios = $usuario_bd->findBy(["persona"=>$persona]);
+        $usuario = $usuario_bd->findOneByPersona($persona);
         $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
         $personaCursos = $personaCurso_bd->findBy(["persona"=>$persona]);
 
-        foreach($usuarios as $usuario)
+        if($usuario)
             $em->remove($usuario);
 
         foreach($telefonos as $telefono)
@@ -201,7 +201,7 @@ class PersonaController extends Controller
                 $status = "Los datos han sido eliminados con éxito!";
             else
                 $status = "Falló la eliminación del perfil, intente nuevamente";
-
+        $this->session->getFlashBag()->add("status", $status);
         return $this->redirectToRoute("logout");
     }
 }
