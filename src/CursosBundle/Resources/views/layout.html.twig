@@ -33,8 +33,23 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             {% block menu %}
-                                <li class="active"><a href="{{ path("curso_index") }}"><span class="glyphicon glyphicon-book"></span> Cursos Disponibles </a></li>
-                                <li><a href="#">Link</a></li>
+                                <li class="active">
+                                    <a href="{{ path("curso_index") }}"><span class="glyphicon glyphicon-book"></span> Cursos Disponibles </a>
+                                </li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li class="active">
+                                        <a href="{{ path("persona_excel_report") }}" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Descargar Archivo Excel de Personas</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ path("persona_pdf_report") }}" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Descargar Archivo PDF de Personas</a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Excel</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>PDF</a>
+                                </li>
                             {% endblock%}
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
