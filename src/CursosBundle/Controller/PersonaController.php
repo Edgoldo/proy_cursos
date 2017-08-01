@@ -50,6 +50,25 @@ class PersonaController extends Controller
         $usuario_bd = $em->getRepository("CursosBundle:Usuario");
         $telefono_bd = $em->getRepository("CursosBundle:Telefono");
         $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
+        $persona = $persona_bd->findAll();
+        $usuario = $usuario_bd->findAll();
+        $telefono = $telefono_bd->findAll();
+        $personaCurso = $personaCurso_bd->findAll();
+
+        return $this->render('CursosBundle:Persona:persona_report.html.twig', [
+            "personas" => $persona,
+            "usuarios" => $usuario,
+            "telefonos" => $telefono,
+            "cursos" => $personaCurso
+        ]);
+    }
+
+    public function excelReportAction(){
+        $em = $this->getDoctrine()->getEntityManager();
+        $persona_bd = $em->getRepository("CursosBundle:Persona");
+        $usuario_bd = $em->getRepository("CursosBundle:Usuario");
+        $telefono_bd = $em->getRepository("CursosBundle:Telefono");
+        $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
         $personas = $persona_bd->findAll();
         $num = count($personas);
         // Solicita el servicio de excel
@@ -57,6 +76,7 @@ class PersonaController extends Controller
 
         $sharedStyle1 = new \PHPExcel_Style();
         $sharedStyle2 = new \PHPExcel_Style();
+        $sharedStyle3 = new \PHPExcel_Style();
 
         $sharedStyle1->applyFromArray(
             ['fill' => [
@@ -89,8 +109,22 @@ class PersonaController extends Controller
                 'size' => 12,
             ]
         ]);
-        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle1, "A1:G1");
-        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle2, "A2:G".(string)($num+1));
+        $sharedStyle3->applyFromArray(
+            ['font' => [
+                'bold' => true,
+                'size' => 16,
+            ],
+            'borders' => [
+                'bottom' => ['style' => \PHPExcel_Style_Border::BORDER_NONE],
+                'right' => ['style' => \PHPExcel_Style_Border::BORDER_NONE]
+            ],
+            'alignment' => [
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle1, "A2:G2");
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle2, "A3:G".(string)($num+2));
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle3, "A1:G1");
         $phpExcelObject->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("B")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("C")->setAutoSize(true);
@@ -98,16 +132,19 @@ class PersonaController extends Controller
         $phpExcelObject->getActiveSheet()->getColumnDimension("E")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("F")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("G")->setAutoSize(true);
+        $phpExcelObject->getActiveSheet()->getRowDimension(1)->setRowHeight(20);
+        $phpExcelObject->getActiveSheet()->mergeCells("A1:G1");
 
         $phpExcelObject->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Nombre')
-            ->setCellValue('B1', 'Apellido')
-            ->setCellValue('C1', 'Dirección')
-            ->setCellValue('D1', 'Apodo')
-            ->setCellValue('E1', 'Correo')
-            ->setCellValue('F1', 'Teléfono')
-            ->setCellValue('G1', 'Cursos Inscritos');
-        $i = 1;
+            ->setCellValue('A1', 'Listado de Personas Registradas en el Sistema')
+            ->setCellValue('A2', 'Nombre')
+            ->setCellValue('B2', 'Apellido')
+            ->setCellValue('C2', 'Dirección')
+            ->setCellValue('D2', 'Apodo')
+            ->setCellValue('E2', 'Correo')
+            ->setCellValue('F2', 'Teléfono')
+            ->setCellValue('G2', 'Cursos Inscritos');
+        $i = 2;
         foreach($personas as $persona){
             $usuario = $usuario_bd->findOneByPersona($persona);
             $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
@@ -152,7 +189,7 @@ class PersonaController extends Controller
         return $response;
     }
 
-    public function pdfAction(){
+    public function pdfReportAction(){
         $em = $this->getDoctrine()->getEntityManager();
         $persona_bd = $em->getRepository("CursosBundle:Persona");
         $usuario_bd = $em->getRepository("CursosBundle:Usuario");
@@ -165,11 +202,12 @@ class PersonaController extends Controller
 
         $sharedStyle1 = new \PHPExcel_Style();
         $sharedStyle2 = new \PHPExcel_Style();
+        $sharedStyle3 = new \PHPExcel_Style();
 
         $sharedStyle1->applyFromArray(
             ['fill' => [
                 'type' => \PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => ['argb' => '004169E1']
+                'color' => ['argb' => '0048764A']
             ],
             'borders' => [
                 'bottom' => ['style' => \PHPExcel_Style_Border::BORDER_THIN],
@@ -186,7 +224,7 @@ class PersonaController extends Controller
         $sharedStyle2->applyFromArray(
             ['fill' => [
                 'type'   => \PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => ['argb' => '00edd46f']
+                'color' => ['argb' => '00cfc7bc']
             ],
             'borders' => [
                 'bottom' => ['style' => \PHPExcel_Style_Border::BORDER_THIN],
@@ -197,8 +235,19 @@ class PersonaController extends Controller
                 'size' => 12,
             ]
         ]);
-        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle1, "A1:G1");
-        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle2, "A2:G".(string)($num+1));
+        $sharedStyle3->applyFromArray(
+            ['font' => [
+                'bold' => true,
+                'size' => 16,
+            ],
+            'borders' => [
+                'bottom' => ['style' => \PHPExcel_Style_Border::BORDER_NONE],
+                'right' => ['style' => \PHPExcel_Style_Border::BORDER_NONE]
+            ],
+        ]);
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle1, "A2:G2");
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle2, "A3:G".(string)($num+2));
+        $phpExcelObject->getActiveSheet()->setSharedStyle($sharedStyle3, "A1:G1");
         $phpExcelObject->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("B")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("C")->setAutoSize(true);
@@ -206,16 +255,18 @@ class PersonaController extends Controller
         $phpExcelObject->getActiveSheet()->getColumnDimension("E")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("F")->setAutoSize(true);
         $phpExcelObject->getActiveSheet()->getColumnDimension("G")->setAutoSize(true);
+        $phpExcelObject->getActiveSheet()->mergeCells("C1:G1");
 
         $phpExcelObject->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Nombre')
-            ->setCellValue('B1', 'Apellido')
-            ->setCellValue('C1', 'Dirección')
-            ->setCellValue('D1', 'Apodo')
-            ->setCellValue('E1', 'Correo')
-            ->setCellValue('F1', 'Teléfono')
-            ->setCellValue('G1', 'Cursos Inscritos');
-        $i = 1;
+            ->setCellValue('C1', 'Listado de Personas Registradas en el Sistema')
+            ->setCellValue('A2', 'Nombre')
+            ->setCellValue('B2', 'Apellido')
+            ->setCellValue('C2', 'Dirección')
+            ->setCellValue('D2', 'Apodo')
+            ->setCellValue('E2', 'Correo')
+            ->setCellValue('F2', 'Teléfono')
+            ->setCellValue('G2', 'Cursos Inscritos');
+        $i = 2;
         foreach($personas as $persona){
             $usuario = $usuario_bd->findOneByPersona($persona);
             $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
@@ -238,20 +289,12 @@ class PersonaController extends Controller
                     ->setCellValue('G'.(string)($i+1), $titulos);
             $i++;
         }
-        $phpExcelObject->getActiveSheet()->setTitle('Hoja 1');
         // Define el indice de página al número 1, para abrir esa página al abrir el archivo
         $phpExcelObject->setActiveSheetIndex(0);
 
-        //  Change these values to select the Rendering library that you wish to use
-        //      and its directory location on your server
-        //$rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
         $rendererName = \PHPExcel_Settings::PDF_RENDERER_MPDF;
-        //$rendererName = PHPExcel_Settings::PDF_RENDERER_DOMPDF;
-        //$rendererLibrary = 'tcPDF5.9';
         $rendererLibrary = 'mPDF';
-        //$rendererLibrary = 'domPDF0.6.0beta3';
-        // /../../../../vendor/phpoffice/phpexcel/Classes/PHPExcel/Writer/PDF/
-        $rendererLibraryPath = dirname(__FILE__).'/../../../vendor/phpoffice/phpexcel/Classes/PHPExcel/Writer/PDF/mPDF.php';
+        $rendererLibraryPath = dirname(__FILE__).'/../../../vendor/mpdf/mpdf';
 
         if (!\PHPExcel_Settings::setPdfRenderer(
             $rendererName,
@@ -263,20 +306,6 @@ class PersonaController extends Controller
                 'at the top of this script as appropriate for your directory structure'
             );
         }
-        echo "** PASA **";
-        // Redirect output to a client’s web browser (PDF)
-        // header('Content-Type: application/pdf');
-        // header('Content-Disposition: attachment;filename="01simple.pdf"');
-        // header('Cache-Control: max-age=0');
-        // $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
-        // $objWriter->save('php://output');
-        // exit;
-
-        $phpExcelObject = \PHPExcel_IOFactory::createWriter($phpExcelObject, 'PDF');
-        $phpExcelObject->writeAllSheets();
-        $phpExcelObject->save('php://output');
-        exit(0);
-
         // Crea el writer
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'PDF');
         // Envia la respuesta del controlador
