@@ -1,0 +1,62 @@
+{% extends "CursosBundle::layout.html.twig" %}
+
+{% block content %}
+	<h3> Personas Registradas </h3>
+	<hr/>
+	<div class="col-lg-10">
+		<a href="{{ path("persona_excel_report") }}" class="btn btn-primary">Generar Archivo Excel</a>
+		<a href="{{ path("persona_pdf_report") }}" class="btn btn-primary">Generar Archivo PDF</a>
+		<table class="table table-hover table-bordered" id="miTabla">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Dirección</th>
+					<th>Número de Teléfono</th>
+					<th>Apodo</th>
+					<th>Correo</th>
+					<th>Cursos Inscritos</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for persona in personas %}
+					<tr>
+						<td>{{ persona.nombre }}</td>
+						<td>{{ persona.apellido }}</td>
+						<td>{{ persona.direccion }}</td>
+						{#
+						<td>
+							{% for telefono in telefonos %}
+								{% if telefono.persona == persona.id %}
+									<tr><td>{{ telefono.numero }}</td></tr>
+								{% endif %}
+							{% endfor %}
+						</td>
+						{% for usuario in usuarios %}
+							{% if usuario.persona == persona.id %}
+								<td>{{ usuario.apodo }}</td>
+								<td>{{ usuario.correo }}</td>
+							{% endif %}
+						{% endfor %}
+						<td><tr>
+							{% for curso in cursos %}
+								{% if curso.persona == persona.id %}
+									<td>{{ curso.curso.titulo }}</td>
+								{% endif %}
+							{% endfor %}
+						</tr></td>
+						#}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="clearfix"></div>
+{% endblock %}
+{% block extra_footer %}
+<script>
+	$(document).ready(function(){
+	   	$('#miTabla').DataTable();
+	});
+</script>
+{% endblock %}
