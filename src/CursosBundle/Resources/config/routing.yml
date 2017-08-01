@@ -20,9 +20,13 @@ persona_report:
   path: /persona/report
   defaults: { _controller: CursosBundle:Persona:report }
 
-persona_pdf:
-  path: /persona/pdf
-  defaults: { _controller: CursosBundle:Persona:pdf }
+persona_excel_report:
+  path: /persona/excel_report
+  defaults: { _controller: CursosBundle:Persona:excelReport }
+
+persona_pdf_report:
+  path: /persona/pdf_report
+  defaults: { _controller: CursosBundle:Persona:pdfReport }
 
 persona_register:
   path: /persona/register
