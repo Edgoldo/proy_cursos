@@ -22,7 +22,16 @@
 			</tr>
 			<tr>
 				<th style="width: 10%">Telefono</th>
-				<td>{{ telefono.numero }}</td>
+				<td>
+					{% for telefono in telefonos %}
+						<table class="col-lg-12">
+							<tr><td>{{ telefono.numero }}</td>
+							<td style="width: 5%">
+								<a href="{{ path("telefono_delete", {"id":telefono.id}) }}" data-toggle="tooltip" title="Eliminar Número" class="glyphicon glyphicon-remove" style="font-size:15px;"></a>
+							</td></tr>
+						</table>
+					{% endfor %}
+				</td>
 			</tr>
 			<tr>
 				<th style="width: 10%">Apodo</th>
@@ -36,7 +45,7 @@
 				<th style="width: 10%">Cursos</th>
 				<td>
 					{% for curso in cursos %}
-						<table>
+						<table class="col-lg-12">
 							<tr><td>{{ curso.curso.titulo }}</td>
 							<td style="width: 5%">
 								<a href="{{ path("curso_unsuscribe", {"id":curso.id}) }}" data-toggle="tooltip" title="Abandonar curso" class="glyphicon glyphicon-thumbs-down" style="font-size:25px;"></a>
