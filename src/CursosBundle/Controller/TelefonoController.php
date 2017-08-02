@@ -27,8 +27,7 @@ class TelefonoController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
 
             // Encuentra la entidad persona a la que está relacionada el telefono
-            $persona_bd = $em->getRepository("CursosBundle:Persona");
-            $persona = $persona_bd->find($form->get("persona")->getData());
+            $persona = $this->getUser()->getPersona();
             // Obtención de los datos del formulario y almacenamiento en el objeto $telefono
             $telefono->setNumero($form->get("numero")->getData());
             $telefono->setPersona($persona);
@@ -51,5 +50,21 @@ class TelefonoController extends Controller
         return $this->render('CursosBundle:Telefono:telefono_register.html.twig', [
             "form" => $form->createView()
         ]);
+    }
+
+    public function deleteAction($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $telefono_bd = $em->getRepository("CursosBundle:Telefono");
+        $telefono = $telefono_bd->find($id);
+
+        $em->remove($telefono);
+        $flush = $em->flush();
+
+        if($flush == null)
+                $status = "El número de teléfono ha sido eliminado con éxito!";
+            else
+                $status = "Falló la eliminación del número de teléfono, intente nuevamente";
+        $this->session->getFlashBag()->add("status", $status);
+        return $this->redirectToRoute("persona_index", ["id" => $this->getUser()->getPersona()->getId()]);
     }
 }
