@@ -2,6 +2,14 @@ cursos_homepage:
   path: /
   defaults: { _controller: CursosBundle:Sistema:index }
 
+cursos_info:
+  path: /info
+  defaults: { _controller: CursosBundle:Sistema:info }
+
+cursos_test:
+  path: /test
+  defaults: { _controller: CursosBundle:Sistema:test }
+
 login:
   path: /login
   defaults: { _controller: CursosBundle:Usuario:login }
@@ -48,6 +56,10 @@ telefono_register:
   path: /telefono/register
   defaults: { _controller: CursosBundle:Telefono:register }
 
+telefono_delete:
+  path: /telefono/delete/{id}
+  defaults: { _controller: CursosBundle:Telefono:delete }
+
 curso_index:
   path: /curso
   defaults: { _controller: CursosBundle:Curso:index }
@@ -55,6 +67,14 @@ curso_index:
 curso_register:
   path: /curso/register
   defaults: { _controller: CursosBundle:Curso:register }
+
+curso_excel_report:
+  path: /curso/excel_report
+  defaults: { _controller: CursosBundle:Curso:excelReport }
+
+curso_pdf_report:
+  path: /curso/pdf_report
+  defaults: { _controller: CursosBundle:Curso:pdfReport }
 
 curso_suscribe:
   path: /curso/suscribe/{id}
