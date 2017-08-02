@@ -6,6 +6,7 @@
 	<div class="col-lg-10">
 		<a href="{{ path("persona_excel_report") }}" class="btn btn-primary">Generar Archivo Excel</a>
 		<a href="{{ path("persona_pdf_report") }}" class="btn btn-primary">Generar Archivo PDF</a>
+		<hr/>
 		<table class="table table-hover table-bordered" id="miTabla">
 			<thead>
 				<tr>
@@ -24,28 +25,26 @@
 						<td>{{ persona.nombre }}</td>
 						<td>{{ persona.apellido }}</td>
 						<td>{{ persona.direccion }}</td>
-						{#
 						<td>
 							{% for telefono in telefonos %}
-								{% if telefono.persona == persona.id %}
-									<tr><td>{{ telefono.numero }}</td></tr>
+								{% if telefono.persona == persona %}
+									{{ telefono.numero }}, 
 								{% endif %}
 							{% endfor %}
 						</td>
 						{% for usuario in usuarios %}
-							{% if usuario.persona == persona.id %}
+							{% if usuario.persona == persona %}
 								<td>{{ usuario.apodo }}</td>
 								<td>{{ usuario.correo }}</td>
 							{% endif %}
 						{% endfor %}
-						<td><tr>
+						<td>
 							{% for curso in cursos %}
-								{% if curso.persona == persona.id %}
-									<td>{{ curso.curso.titulo }}</td>
+								{% if curso.persona == persona %}
+									{{ curso.curso.titulo }}, 
 								{% endif %}
 							{% endfor %}
-						</tr></td>
-						#}
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
