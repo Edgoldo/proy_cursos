@@ -33,13 +33,13 @@ class PersonaController extends Controller
         $personaCurso_bd = $em->getRepository("CursosBundle:PersonaCurso");
         $persona = $persona_bd->find($id);
         $usuario = $usuario_bd->findOneByPersona($persona);
-        $telefono = $telefono_bd->findOneByPersona($persona);
+        $telefonos = $telefono_bd->findBy(["persona"=>$persona]);
         $personaCurso = $personaCurso_bd->findBy(["persona"=>$persona]);
 
         return $this->render('CursosBundle:Persona:persona_index.html.twig', [
             "persona" => $persona,
             "usuario" => $usuario,
-            "telefono" => $telefono,
+            "telefonos" => $telefonos,
             "cursos" => $personaCurso
         ]);
     }
@@ -160,11 +160,11 @@ class PersonaController extends Controller
                 $numeros = $numeros.$telefono->getNumero().", ";
             $phpExcelObject->setActiveSheetIndex(0)
                 ->setCellValue('F'.(string)($i+1), $numeros);
-                $titulos = "";
-                foreach($cursos as $curso)
-                    $titulos = $titulos.$curso->getCurso()->getTitulo().". ";
-                $phpExcelObject->setActiveSheetIndex(0)
-                    ->setCellValue('G'.(string)($i+1), $titulos);
+            $titulos = "";
+            foreach($cursos as $curso)
+                $titulos = $titulos.$curso->getCurso()->getTitulo().". ";
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue('G'.(string)($i+1), $titulos);
             $i++;
         }
         $phpExcelObject->getActiveSheet()->setTitle('Hoja 1');
@@ -282,11 +282,11 @@ class PersonaController extends Controller
                 $numeros = $numeros.$telefono->getNumero().", ";
             $phpExcelObject->setActiveSheetIndex(0)
                 ->setCellValue('F'.(string)($i+1), $numeros);
-                $titulos = "";
-                foreach($cursos as $curso)
-                    $titulos = $titulos.$curso->getCurso()->getTitulo().". ";
-                $phpExcelObject->setActiveSheetIndex(0)
-                    ->setCellValue('G'.(string)($i+1), $titulos);
+            $titulos = "";
+            foreach($cursos as $curso)
+                $titulos = $titulos.$curso->getCurso()->getTitulo().". ";
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue('G'.(string)($i+1), $titulos);
             $i++;
         }
         // Define el indice de página al número 1, para abrir esa página al abrir el archivo
@@ -424,7 +424,7 @@ class PersonaController extends Controller
             $usuario->setApodo($form->get("usuario")->get("apodo")->getData());
             $usuario->setCorreo($form->get("usuario")->get("correo")->getData());
             $usuario->setPassword($password);
-            $usuario->setRol("ROLE_USER");
+            $usuario->setRol($usuario->getRol());
             $usuario->setPersona($persona);
             // Obtención de los datos del formulario y almacenamiento en el objeto $telefono
             $telefono->setNumero($form->get("telefono")->get("numero")->getData());
