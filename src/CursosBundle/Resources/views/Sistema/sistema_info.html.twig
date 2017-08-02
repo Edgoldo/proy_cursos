@@ -1,0 +1,27 @@
+{% extends "CursosBundle::layout.html.twig" %}
+
+{% block content %}
+
+<div class="col-lg-8">
+	<blockquote>
+		<p class="text-justify" align="center">
+			Bienvenido al sistema para la administración de cursos. Actualmente el sistema se adapta a dos roles de usuario, si desea hacer una prueba, puede presionar el siguiente botón el cual generará datos predefinidos en la base de datos.
+		</p>
+		<p class="text-justify" align="center">
+			Los usuarios creados para la prueba son:
+		</p>
+		<p>Apodo: admin</p>
+		<p>Contraseña: admin123</p>
+		<br>
+		<p>Apodo: user</p>
+		<p>Contraseña: user123</p>
+		<br>
+		<p>Cada uno tiene acceso a diferentes características.</p>
+		</p>
+	</blockquote>
+	<center><a href="{{ path("cursos_test") }}" class="btn btn-default">Iniciar Sistema</a></center>
+</div>
+
+<div class="clearfix"></div>
+
+{% endblock %}
