@@ -26,29 +26,31 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{{path("cursos_homepage")}}">Sistema de Cursos</a>
+                        <a class="navbar-brand" href="{{path("cursos_info")}}">Sistema de Cursos</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             {% block menu %}
-                                <li class="active">
-                                    <a href="{{ path("curso_index") }}"><span class="glyphicon glyphicon-book"></span> Cursos Disponibles </a>
+                                <li>
+                                    <a href="{{ path("curso_index") }}"><span class="glyphicon glyphicon-book"></span>  Cursos Disponibles </a>
                                 </li>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <li class="active">
-                                        <a href="{{ path("persona_excel_report") }}" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Descargar Archivo Excel de Personas</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="{{ path("persona_pdf_report") }}" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Descargar Archivo PDF de Personas</a>
+                                    <li>
+                                        <a href="{{ path("persona_report") }}"><span class="glyphicon glyphicon-user"></span> Personas Registradas </a>
                                     </li>
                                 {% endif %}
-                                <li>
-                                    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>Excel</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-save-file"></span>PDF</a>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Títulos de Cursos </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="curso_excel_report"><span class="glyphicon glyphicon-save-file"></span>Descargar Excel</a>
+                                        </li>
+                                        <li>
+                                            <a href="curso_pdf_report"><span class="glyphicon glyphicon-save-file"></span>Descargar PDF</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             {% endblock%}
                         </ul>
@@ -67,6 +69,7 @@
                                             <li><a href="{{path("curso_register")}}">Registrar Curso</a></li>
                                         {% endif %}
                                         <li><a href="{{path("persona_index", {"id":app.user.persona.id}) }}">Ver Perfil de Usuario</a></li>
+                                        <li><a href="{{path("telefono_register", {"id":app.user.persona.id}) }}">Registrar Número de Teléfono</a></li>
                                         <li><a href="#">Información</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="{{path("logout")}}">Cerrar Sesión</a></li>
@@ -74,7 +77,7 @@
                                         <li><a href="{{path("persona_register")}}">Registrarse en el Sistema</a></li>
                                         <li><a href="{{path("login")}}">Iniciar Sesión</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#">Información</a></li>
+                                        <li><a href="{{path("cursos_info")}}">Información</a></li>
                                     {% endif%}
                                 </ul>
                             </li>
