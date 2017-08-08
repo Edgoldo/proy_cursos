@@ -9,9 +9,12 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">  
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+        <link rel ="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+        <link rel ="stylesheet" href="{{ asset('js/bootstrap.min.css') }}" />
        
     </head>
     <body>
@@ -70,7 +73,7 @@
                                         {% endif %}
                                         <li><a href="{{path("persona_index", {"id":app.user.persona.id}) }}">Ver Perfil de Usuario</a></li>
                                         <li><a href="{{path("telefono_register", {"id":app.user.persona.id}) }}">Registrar Número de Teléfono</a></li>
-                                        <li><a href="#">Información</a></li>
+                                        <li><a href="{{path("cursos_info")}}">Información</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="{{path("logout")}}">Cerrar Sesión</a></li>
                                     {% else %}
